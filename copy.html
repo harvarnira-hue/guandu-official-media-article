@@ -334,6 +334,7 @@
     <p style="margin:0;padding:0;color:#06101f;text-align:center;font-size:15px;line-height:1.8;font-weight:900;">趣玩官渡好时节 · AI 创意市集<br>云湃智创和城市伙伴一起<br>让前沿科技走进云南城市生活<br>共建超级个体的云南聚场</p>
   </section>
 </main></template>
+  <section id="copyFallback" style="position:fixed;left:-100000px;top:0;width:680px;height:auto;overflow:hidden;"></section>
   <section class="preview-wrap">
     <main id="wechatArticlePreview" style="max-width:680px;margin:0 auto;overflow:hidden;background:#fffdf8;">
 <section style="width:100%;box-sizing:border-box;margin:0;padding:22px 20px 18px;background:#06101f;">
@@ -645,6 +646,7 @@
     const statusEl = document.getElementById('copyStatus');
     const template = document.getElementById('copyTemplate');
     const preview = document.getElementById('wechatArticlePreview');
+    const fallback = document.getElementById('copyFallback');
     const setStatus = (text) => { statusEl.textContent = text; };
     async function copyArticle() {
       const html = template.innerHTML.trim();
@@ -669,8 +671,9 @@
         }
         setStatus('复制成功。现在可以切到公众号编辑器正文区域粘贴。');
       } catch (error) {
+        fallback.innerHTML = html;
         const range = document.createRange();
-        range.selectNode(preview);
+        range.selectNodeContents(fallback);
         const selection = window.getSelection();
         selection.removeAllRanges();
         selection.addRange(range);
